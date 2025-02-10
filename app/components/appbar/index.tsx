@@ -9,9 +9,9 @@ const Appbar = () => {
                     <Image
                         src="./assets/logo.svg"
                         alt='Logo'
-                        width={150}
-                        height={60}
-                        className='lg:ml-16 h-[60px] w-[160px] lg:h-[80px] lg:w-[170px]'
+                        width={200}
+                        height={80}
+                        className='lg:ml-32 h-[60px] w-[180px] lg:h-[70px] lg:w-[150px]'
                     />
                 </div>
             </div>

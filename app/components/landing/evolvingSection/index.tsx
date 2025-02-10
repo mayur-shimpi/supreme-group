@@ -2,7 +2,21 @@
 import { useState, useEffect, useMemo, FC } from "react";
 import { motion } from "framer-motion";
 
-const tabs = [
+// Types for the video and tab objects
+interface Video {
+    id: number;
+    src: string;
+    thumbnail: string;
+}
+
+interface Tab {
+    id: number;
+    title: string;
+    description: string;
+    videos: Video[];
+}
+
+const tabs: Tab[] = [
     {
         id: 1,
         title: "Passenger vehicles",
@@ -27,12 +41,12 @@ const tabs = [
     },
 ];
 
-const EvolvingSection:FC = () => {
-    const [activeTab, setActiveTab] = useState(1);
-    const [activeVideo, setActiveVideo] = useState(tabs[0].videos[0].src);
+const EvolvingSection: FC = () => {
+    const [activeTab, setActiveTab] = useState<number>(1);
+    const [activeVideo, setActiveVideo] = useState<string>(tabs[0].videos[0].src);
 
     // Get the active tab object
-    const currentTab = useMemo(() => tabs.find(tab => tab.id === activeTab), [activeTab]);
+    const currentTab = useMemo<Tab | undefined>(() => tabs.find((tab) => tab.id === activeTab), [activeTab]);
 
     // Function to handle scroll-based tab switching
     useEffect(() => {
@@ -40,8 +54,7 @@ const EvolvingSection:FC = () => {
             const scrollPosition = window.scrollY;
             if (scrollPosition > 1400) {
                 setActiveTab(2);
-                // Reset to first video of tab
-                setActiveVideo(tabs[1].videos[0].src); 
+                setActiveVideo(tabs[1].videos[0].src);
             } else {
                 setActiveTab(1);
                 setActiveVideo(tabs[0].videos[0].src);
@@ -52,26 +65,28 @@ const EvolvingSection:FC = () => {
     }, []);
 
     return (
-        <section className={` w-full lg:h-[600px] py-10 bg-black text-white flex items-center justify-center `}>
+        <section className="w-full lg:h-[600px] py-10 bg-black text-white flex items-center justify-center">
             <div className="container mx-auto lg:px-40 px-5">
                 {/* Main Tabs */}
-                <div className=" grid lg:grid-cols-3 grid-cols-1 items-center lg:items-start lg:justify-between">
+                <div className="grid lg:grid-cols-3 grid-cols-1 items-center lg:items-start lg:justify-between">
                     {/* Tab Buttons */}
-                    <motion.div 
-                    initial={{ opacity: 0, y: 50 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 1, ease: "easeOut" }}
-                    viewport={{ once: true }}
-                    className="w-full flex flex-col ">
+                    <motion.div
+                        initial={{ opacity: 0, y: 50 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 1, ease: "easeOut" }}
+                        viewport={{ once: true }}
+                        className="w-full flex flex-col "
+                    >
                         {tabs.map((tab) => (
                             <button
                                 key={tab.id}
                                 onClick={() => {
                                     setActiveTab(tab.id);
-                                    setActiveVideo(tab.videos[0].src); // Reset to first video in tab
+                                    setActiveVideo(tab.videos[0].src);
                                 }}
-                                className={`text-left px-4 py-4 lg:py-10 border-l-4 transition-all ${activeTab === tab.id ? "border-white text-white" : "border-gray-600 text-gray-500"
-                                    }`}
+                                className={`text-left px-4 py-4 lg:py-10 border-l-4 transition-all ${
+                                    activeTab === tab.id ? "border-white text-white" : "border-gray-600 text-gray-500"
+                                }`}
                             >
                                 <h3 className="text-xl font-semibold">{tab.title}</h3>
                                 <p className="text-sm">{tab.description}</p>
@@ -88,13 +103,15 @@ const EvolvingSection:FC = () => {
                     >
                         {/* Main Video */}
                         <video
-                            src={activeVideo}
                             autoPlay
                             loop
                             muted
                             playsInline
+                            poster={currentTab?.videos[0].thumbnail}
                             className="rounded-lg w-[800px] h-[250px] lg:h-[350px]"
-                        />
+                        >
+                            <source src={activeVideo} type="video/mp4" />
+                        </video>
 
                         {/* Sub-tabs (Thumbnails) */}
                         <div className="mt-4 flex space-x-4">
@@ -102,11 +119,14 @@ const EvolvingSection:FC = () => {
                                 <button
                                     key={video.id}
                                     onClick={() => setActiveVideo(video.src)}
-                                    className={`flex flex-col font-light items-center justify-center transition-opacity duration-300 hover:opacity-100 cursor-pointer ${activeVideo === video.src ? "opacity-1" : "opacity-50"}`}
+                                    className={`flex flex-col font-light items-center justify-center transition-opacity duration-300 hover:opacity-100 cursor-pointer ${
+                                        activeVideo === video.src ? "opacity-1" : "opacity-50"
+                                    }`}
                                 >
                                     <img
                                         src={video.thumbnail}
                                         alt="Thumbnail"
+                                        loading="lazy"
                                         className={`w-16 h-16 ${activeVideo === video.src ? "border-white" : "border-gray-500"}`}
                                     />
                                 </button>

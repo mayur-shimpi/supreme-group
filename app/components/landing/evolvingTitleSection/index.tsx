@@ -12,9 +12,9 @@ const EvolvingTitleSection:FC = () => {
                         whileInView={{ opacity: 1, y: 0 }}
                         transition={{ duration: 1, ease: "easeOut" }}
                         viewport={{ once: true }}
-                        className=" text-3xl md:text-4xl font-semibold leading-tight sticky top-0"
+                        className=" text-3xl md:text-5xl font-light !leading-[40px] lg:!leading-[70px] sticky top-0"
                     >
-                        Evolving the drive with 360-degree <br />
+                        Evolving the drive with <span className="font-semibold">360-degree</span> <br />
                         comprehensive solutions
                     </motion.h2>
                 </div>

@@ -49,7 +49,7 @@ const EvolvingSection: FC = () => {
     useEffect(() => {
         const handleScroll = () => {
             const scrollPosition = window.scrollY;
-            if (scrollPosition > 1400) {
+            if (scrollPosition > 1350) {
                 setActiveTab(2);
                 setActiveVideo(tabs[1].videos[0].src);
             } else {
@@ -79,10 +79,10 @@ const EvolvingSection: FC = () => {
                                     setActiveTab(tab.id);
                                     setActiveVideo(tab.videos[0].src);
                                 }}
-                                className={`text-left px-4 py-4 lg:py-10 border-l-4 transition-all ${activeTab === tab.id ? "border-white text-white" : "border-gray-600 text-gray-500"}`}
+                                className={`text-left px-4 py-4 pl-8 lg:pl-16 lg:py-10 border-l-4 transition-all ${activeTab === tab.id ? "border-white text-white" : "border-gray-600 text-gray-500"}`}
                             >
-                                <h3 className="text-xl font-semibold">{tab.title}</h3>
-                                <p className="text-sm">{tab.description}</p>
+                                <h3 className="text-xl lg:text-3xl font-semibold">{tab.title}</h3>
+                                <p className="text-md lg:text-lg mt-1 lg:mt-3 w-full lg:w-[70%]">{tab.description}</p>
                             </button>
                         ))}
                     </motion.div>
